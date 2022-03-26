@@ -3,12 +3,12 @@ const { createHash, randomInt } = require('crypto');
 
 class Rechian {
     constructor(chain){
-        this.chain = chain ;
+        this.chain = [] ;
         
     }
     createBlock(nonce = 1,previousHash = 0 ) {
-        block = {
-            'index': length(self.chain),
+       const block = {
+            'index': 1,
             'timestamp': new Date().toString(),
             'nonce':nonce,
             'previousHash':previousHash
