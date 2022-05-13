@@ -9,7 +9,7 @@ class Rechian {
     createBlock(nonce = 1,previousHash = 0 ) {
        const block = {
             'index': 1,
-            'timestamp': new Date().toString(),
+            'timestamp': new Date().toString(), 
             'nonce':nonce,
             'previousHash':previousHash
         }
