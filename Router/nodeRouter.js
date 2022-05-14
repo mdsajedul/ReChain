@@ -1,11 +1,12 @@
 const express = require('express');
-const { schema,nodeRegistration, registerValidation } = require('../controller/nodeController');
-const {checkSchema} =require('../controller/nodeController')
+const { nodeRegistration } = require('../controller/nodeController');
+const registerValidation = require('../Schemas/registerValidation');
+const userSchema = require('../Schemas/userSchema');
 
 
 const router = express.Router();
 
 
-router.post('/register',schema, registerValidation,nodeRegistration)
+router.post('/register',userSchema, registerValidation,nodeRegistration)
 
 module.exports = router;
