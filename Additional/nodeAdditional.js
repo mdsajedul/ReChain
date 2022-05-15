@@ -1,24 +1,24 @@
 var crypto = require("crypto");
+const passphrase = "mySecret"
 
-let encryptString = function(value,publicKey){
-    let buffer = Buffer.from(value);
-    let encrypted = crypto.publicEncrypt(publicKey,buffer)
-    return encrypted.toString('base64');
-}
+var encryptString = function(toEncrypt, publicKey) {
+    var buffer = Buffer.from(toEncrypt);
+    var encrypted = crypto.publicEncrypt(publicKey, buffer);
+    return encrypted.toString("base64");
+};
 
-let decryptString = function(value,privateKey){
-    console.log(privateKey)
-    let buffer = Buffer.from(value,'base64')
-    let decrypted = crypto.privateDecrypt(
+var decryptString = function(toDecrypt, privateKey) {
+    var buffer = Buffer.from(toDecrypt, "base64");
+    
+    const decrypted = crypto.privateDecrypt(
         {
-            key: privateKey,
-            passphrase:''
-            // padding:crypto.constants.RSA_PKCS1_PADDING
+            key: privateKey.toString(),
+            passphrase: passphrase,
         },
         buffer,
     )
-    return decrypted.toString('utf-8')
-}
+    return decrypted.toString("utf8");
+};
 
 module.exports = {
     encryptString,
