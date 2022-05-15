@@ -1,18 +1,44 @@
 
-const eccrypto = require('eccrypto')
+// const eccrypto = require('eccrypto')
+const crypto = require('crypto')
+const { generateKeyPairSync } = require('crypto')
 const fs = require('fs')
 
-const getPrivateKey = ()=>{
-    const privateKey = eccrypto.generatePrivate();
-    const hexValue = privateKey.toString('base64');
-    return hexValue
+
+const generateKeys = ()=>{
+    const { publicKey, privateKey } = generateKeyPairSync('rsa', 
+    {
+            modulusLength: 4096,
+            namedCurve: 'secp256k1', 
+            publicKeyEncoding: {
+                type: 'spki',
+                format: 'pem'     
+            },     
+            privateKeyEncoding: {
+                type: 'pkcs8',
+                format: 'pem',
+                cipher: 'aes-256-cbc',
+                passphrase: 'rechanuser'
+            } 
+    });
+    return {publicKey,privateKey}
 }
 
-const getPublicKey = ()=>{
-    const bufferPrivateKey =new Buffer(getPrivateKey(),'base64')
-    const publicKey = eccrypto.getPublic(bufferPrivateKey) .toString('base64')
-    return publicKey;
-}
+// const publicKey =()=>{
+//     const 
+// }
+
+// const getPrivateKey = ()=>{
+//     const privateKey = eccrypto.generatePrivate();
+//     const hexValue = privateKey.toString('base64');
+//     return hexValue
+// }
+
+// const getPublicKey = ()=>{
+//     const bufferPrivateKey =new Buffer(getPrivateKey(),'base64')
+//     const publicKey = eccrypto.getPublic(bufferPrivateKey) .toString('base64')
+//     return publicKey;
+// }
 
 
 class Node {
@@ -32,8 +58,10 @@ class Node {
         this.username = object.username;
         this.password = object.password;
         this.email = object.email;
-        this.publicKey = getPublicKey();
-        this.privateKey = getPrivateKey();
+        // this.publicKey = getPublicKey();
+        this.publicKey = generateKeys().publicKey;
+        // this.privateKey = getPrivateKey();
+        this.privateKey = generateKeys().privateKey;
         this.role = object.role;
         if(this.role=='user'){
             this.point = 50
@@ -43,7 +71,16 @@ class Node {
         }
 
         
+        
     }
+    // getUserPublicKey(){
+    //     const  buffPublic = Buffer.from(this.publicKey,"base64");
+    //     console.log(buffPublic)
+    //     return buffPublic
+    // }
+    // getUserPrivateKey(){
+    //     return brffPrivate = Buffer.from(this.privateKey,'base64');
+    // }
 
 }
 

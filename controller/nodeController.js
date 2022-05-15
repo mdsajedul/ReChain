@@ -60,7 +60,7 @@ function nodeLogin(req,res,next){
             nodesArray = JSON.parse(data.toString())
             
             const currentNode = nodesArray.find(({email})=> email ===loginInfo.email)
-            console.log(currentNode)
+        
             if(currentNode){
                 if(currentNode.password === loginInfo.password){
 
@@ -72,11 +72,9 @@ function nodeLogin(req,res,next){
                     node.role = currentNode.role;
                     node.point = currentNode.point;
 
-                    
-                    console.log(node)
-    
                     res.send({
-                        message:'Login Successfull'
+                        message:'Login Successfull',
+                        'user':node
                     })
                 }
                 else{
@@ -90,18 +88,13 @@ function nodeLogin(req,res,next){
                     message:'Email not found'
                 })
             }
-            
-
-            // console.log(nodesArray)
         }
     })
-
-    // console.log(loginInfo)
-    // res.send(loginInfo)
 }
 
 
 module.exports = {
     nodeRegistration,
-    nodeLogin
+    nodeLogin,
+    node
 }
