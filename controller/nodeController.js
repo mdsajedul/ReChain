@@ -1,4 +1,4 @@
-const Node = require("../Blockchian/Node");
+const {Node, generateKeys} = require("../Blockchian/Node");
 const fs = require('fs');
 
 

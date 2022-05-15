@@ -3,9 +3,11 @@
 const crypto = require('crypto')
 const { generateKeyPairSync } = require('crypto')
 const fs = require('fs')
+const { writeFileSync } = require('fs')
+const passphrase = "mySecret"
 
 
-const generateKeys = ()=>{
+
     const { publicKey, privateKey } = generateKeyPairSync('rsa', 
     {
             modulusLength: 4096,
@@ -18,11 +20,21 @@ const generateKeys = ()=>{
                 type: 'pkcs8',
                 format: 'pem',
                 cipher: 'aes-256-cbc',
-                passphrase: 'rechanuser'
+                passphrase: passphrase
             } 
-    });
-    return {publicKey,privateKey}
-}
+
+        })
+    //For testing 
+    // writeFileSync('private.pem', privateKey)
+    // writeFileSync('public.pem', publicKey)
+
+
+    // writeFileSync('publicKey.json',publicKey)
+    // writeFileSync('privatekey.json',privateKey)
+
+
+//     return {publicKey,privateKey}
+// }
 
 // const publicKey =()=>{
 //     const 
@@ -58,10 +70,11 @@ class Node {
         this.username = object.username;
         this.password = object.password;
         this.email = object.email;
-        // this.publicKey = getPublicKey();
-        this.publicKey = generateKeys().publicKey;
-        // this.privateKey = getPrivateKey();
-        this.privateKey = generateKeys().privateKey;
+        this.publicKey = publicKey;
+        console.log("public key from node :"+ this.publicKey)
+        this.privateKey = privateKey;
+        console.log("private key from node :"+ this.privateKey)
+
         this.role = object.role;
         if(this.role=='user'){
             this.point = 50
@@ -73,15 +86,9 @@ class Node {
         
         
     }
-    // getUserPublicKey(){
-    //     const  buffPublic = Buffer.from(this.publicKey,"base64");
-    //     console.log(buffPublic)
-    //     return buffPublic
-    // }
-    // getUserPrivateKey(){
-    //     return brffPrivate = Buffer.from(this.privateKey,'base64');
-    // }
 
 }
 
-module.exports = Node
+module.exports = {
+    Node
+}

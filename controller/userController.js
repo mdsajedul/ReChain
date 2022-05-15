@@ -1,7 +1,12 @@
 
 const fs = require('fs');
 const { node } = require('./nodeController');
-const eccrypto = require('eccrypto')
+const eccrypto = require('eccrypto');
+const { encryptString, decryptString } = require('../Additional/nodeAdditional');
+var path = require("path");
+const { generateKeys } = require('../Blockchian/Node');
+var crypto = require("crypto");
+const passphrase = "mySecret"
 
 
 
@@ -20,7 +25,7 @@ function test(req,res,send){
 function  getReviewInfo(req,res,send){
     let reviewInfo = req.body;
     let mempoolArray = [];
-    console.log(node)
+    // console.log(node)
 
     if(reviewInfo.username === node.username){
         console.log('username Matched')
@@ -37,31 +42,37 @@ function  getReviewInfo(req,res,send){
                 let stringReviewData = JSON.stringify(reviewData);
                 
 
-                // get public key and convert on to buffer 
-                // const encryptedReviewData = eccrypto.encrypt(node.publicKey,reviewData)
+                //***********         testing         */
+
+                var encryptString = function(toEncrypt, publicKey) {
+                    var buffer = Buffer.from(toEncrypt);
+                    var encrypted = crypto.publicEncrypt(publicKey, buffer);
+                    return encrypted.toString("base64");
+                };
+
+                var decryptString = function(toDecrypt, privateKey) {
+                    var buffer = Buffer.from(toDecrypt, "base64");
+                    
+                    const decrypted = crypto.privateDecrypt(
+                        {
+                            key: privateKey.toString(),
+                            passphrase: passphrase,
+                        },
+                        buffer,
+                    )
+                    return decrypted.toString("utf8");
+                };
 
 
-                let userPublicKey = Buffer.from(node.publicKey,'base64')
-                let userPrivateKey = Buffer.from(node.privateKey,'base64')
-                
-                
-
-                let encryption = eccrypto.encrypt(userPublicKey,stringReviewData)
-                // .then((encrypted)=>{
-                //     console.log('Encrypted Buffer');
-                //     // console.log(encrypted);
-                //     return encrypted;
-                //     //  eccrypto.decrypt(userPrivateKey,encrypted).then((plainText)=>{
-                //     //     console.log(plainText)
-                //     // })
-
-                let encryptedData = encryption.then((encryptedValue)=>{
-                    return encrypte
-                })
-                // })
-                console.log(encrypData)
+                let encryptedReviewData = encryptString(stringReviewData, node.publicKey)
+                console.log('Encrypted value: '+encryptedReviewData)
+                let decryptedReviewData = decryptString(encryptedReviewData, node.privateKey);
+                console.log("Decrypted value: "+decryptedReviewData)
 
 
+                //########################################### end ##################
+                console.log('Node Details:')
+                console.log(node)
                 mempoolArray.push(reviewInfo)
     
                 const newMemPoolArray = JSON.stringify(mempoolArray)
