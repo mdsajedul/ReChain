@@ -1,13 +1,14 @@
 const express = require('express');
 const { nodeRegistration, nodeLogin } = require('../controller/nodeController');
-const registerValidation = require('../Schemas/registerValidation');
-const userSchema = require('../Schemas/userSchema');
+const inputValidation = require('../Schemas/inputValidation');
+
+const {userSchema,loginSchema} = require('../Schemas/userSchema');
 
 
 const router = express.Router();
 
 
-router.post('/register',userSchema, registerValidation,nodeRegistration)
-router.post('/login',nodeLogin)
+router.post('/register',userSchema, inputValidation,nodeRegistration)
+router.post('/login',loginSchema,inputValidation,nodeLogin)
 
 module.exports = router;

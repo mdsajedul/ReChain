@@ -1,5 +1,5 @@
 var crypto = require("crypto");
-const passphrase = "mySecret"
+const passphrase = "rechain"
 
 var encryptString = function(toEncrypt, publicKey) {
     var buffer = Buffer.from(toEncrypt);

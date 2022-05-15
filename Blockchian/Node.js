@@ -1,13 +1,9 @@
 
-// const eccrypto = require('eccrypto')
-const crypto = require('crypto')
 const { generateKeyPairSync } = require('crypto')
-const fs = require('fs')
-const { writeFileSync } = require('fs')
-const passphrase = "mySecret"
+const passphrase = "rechain"
 
 
-
+    //asymetric key pair generate
     const { publicKey, privateKey } = generateKeyPairSync('rsa', 
     {
             modulusLength: 4096,
@@ -24,34 +20,7 @@ const passphrase = "mySecret"
             } 
 
         })
-    //For testing 
-    // writeFileSync('private.pem', privateKey)
-    // writeFileSync('public.pem', publicKey)
-
-
-    // writeFileSync('publicKey.json',publicKey)
-    // writeFileSync('privatekey.json',privateKey)
-
-
-//     return {publicKey,privateKey}
-// }
-
-// const publicKey =()=>{
-//     const 
-// }
-
-// const getPrivateKey = ()=>{
-//     const privateKey = eccrypto.generatePrivate();
-//     const hexValue = privateKey.toString('base64');
-//     return hexValue
-// }
-
-// const getPublicKey = ()=>{
-//     const bufferPrivateKey =new Buffer(getPrivateKey(),'base64')
-//     const publicKey = eccrypto.getPublic(bufferPrivateKey) .toString('base64')
-//     return publicKey;
-// }
-
+    
 
 class Node {
 
@@ -71,9 +40,7 @@ class Node {
         this.password = object.password;
         this.email = object.email;
         this.publicKey = publicKey;
-        console.log("public key from node :"+ this.publicKey)
         this.privateKey = privateKey;
-        console.log("private key from node :"+ this.privateKey)
 
         this.role = object.role;
         if(this.role=='user'){
@@ -83,7 +50,6 @@ class Node {
             this.point = 100
         }
 
-        
         
     }
 

@@ -1,6 +1,6 @@
 const {validationResult} =require('express-validator');
 
-function registerValidation(req,res,next){
+function inputValidation(req,res,next){
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.json({erors:errors.array()})
@@ -8,4 +8,4 @@ function registerValidation(req,res,next){
     next()
 }
 
-module.exports = registerValidation;
+module.exports = inputValidation;
