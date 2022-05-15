@@ -1,5 +1,6 @@
 
 const eccrypto = require('eccrypto')
+const fs = require('fs')
 
 const getPrivateKey = ()=>{
     const privateKey = eccrypto.generatePrivate();
@@ -26,15 +27,22 @@ class Node {
         this.point = point
     }
 
+
     nodeCreate(object){
         this.username = object.username;
         this.password = object.password;
         this.email = object.email;
-        // need function for create publickey private key and point 
         this.publicKey = getPublicKey();
         this.privateKey = getPrivateKey();
         this.role = object.role;
-        this.point = 5;
+        if(this.role=='user'){
+            this.point = 50
+        }
+        else if(this.role == 'miner'){
+            this.point = 100
+        }
+
+        
     }
 
 }
