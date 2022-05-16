@@ -1,4 +1,4 @@
-const {Node, generateKeys} = require("../Blockchian/Node");
+const {Node, generateKeys, User, Miner} = require("../Blockchian/Node");
 const fs = require('fs');
 
 
@@ -6,6 +6,8 @@ const fs = require('fs');
 
 
 let node = new Node();
+let user = new User();
+let miner = new Miner();
 
 
 // node registration 
@@ -60,22 +62,53 @@ function nodeLogin(req,res,next){
             nodesArray = JSON.parse(data.toString())
             
             const currentNode = nodesArray.find(({email})=> email ===loginInfo.email)
+
+            
         
             if(currentNode){
                 if(currentNode.password === loginInfo.password){
 
-                    node.username = currentNode.username;
-                    node.email = currentNode.email;
-                    node.password = currentNode.password;
-                    node.publicKey = currentNode.publicKey;
-                    node.privateKey = currentNode.privateKey;
-                    node.role = currentNode.role;
-                    node.point = currentNode.point;
+                    if(currentNode.role==='user'){
+                        user.username = currentNode.username;
+                        user.email = currentNode.email;
+                        user.password = currentNode.password;
+                        user.publicKey = currentNode.publicKey;
+                        user.privateKey = currentNode.privateKey;
+                        user.role = currentNode.role;
+                        user.point = currentNode.point;
 
-                    res.send({
-                        message:'Login Successfull',
-                        'user':node
-                    })
+                        res.send({
+                            message:'Login Successfull',
+                            'user':user
+                        })
+                    }
+                    else if(currentNode.role === 'miner'){
+                        miner.username = currentNode.username;
+                        miner.email = currentNode.email;
+                        miner.password = currentNode.password;
+                        miner.publicKey = currentNode.publicKey;
+                        miner.privateKey = currentNode.privateKey;
+                        miner.role = currentNode.role;
+                        miner.point = currentNode.point;
+
+                        res.send({
+                            message:'Login Successfull',
+                            'Miner':miner
+                        })
+                    }
+
+                    // node.username = currentNode.username;
+                    // node.email = currentNode.email;
+                    // node.password = currentNode.password;
+                    // node.publicKey = currentNode.publicKey;
+                    // node.privateKey = currentNode.privateKey;
+                    // node.role = currentNode.role;
+                    // node.point = currentNode.point;
+
+                    // res.send({
+                    //     message:'Login Successfull',
+                    //     'user':node
+                    // })
                 }
                 else{
                     res.send({
@@ -96,5 +129,7 @@ function nodeLogin(req,res,next){
 module.exports = {
     nodeRegistration,
     nodeLogin,
-    node
+    node,
+    miner,
+    user
 }

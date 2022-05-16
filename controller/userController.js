@@ -1,6 +1,6 @@
 
 const fs = require('fs');
-const { node } = require('./nodeController');
+const { node,user } = require('./nodeController');
 const { encryptString, decryptString } = require('../Additional/nodeAdditional');
 
 
@@ -21,7 +21,7 @@ function  getReviewInfo(req,res,send){
     let mempoolArray = [];
     
 
-    if(reviewInfo.username === node.username){
+    if(reviewInfo.username === user.username){
         
 
         fs.readFile('mempool.json','utf-8',(err,data)=>{
@@ -38,7 +38,7 @@ function  getReviewInfo(req,res,send){
                 let stringReviewData = JSON.stringify(reviewData);
 
                 //encrypt function call
-                let encryptedReviewData = encryptString(stringReviewData, node.publicKey)
+                let encryptedReviewData = encryptString(stringReviewData, user.publicKey)
 
                 // decrypt function call
                 // let decryptedReviewData = decryptString(encryptedReviewData, node.privateKey);

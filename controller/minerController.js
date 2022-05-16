@@ -1,5 +1,5 @@
 const ReChain = require('../Blockchian/Rechain');
-const { node } = require('./nodeController');
+const { node,miner } = require('./nodeController');
 
 const rechain =new ReChain();
 
@@ -9,7 +9,7 @@ function mineBlock(req,res,send){
 
     rechain.createBlock()
 
-    console.log(node)
+    console.log(miner)
 
     res.send({
         'message':'Mine successfull',

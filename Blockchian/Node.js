@@ -55,6 +55,20 @@ class Node {
 
 }
 
+class User extends Node{
+    constructor(username,password,email,publicKey,privateKey,role,point){
+        super(username,password,email,publicKey,privateKey,role,point)
+    }
+    
+}
+
+class Miner extends Node{
+    constructor(username,password,email,publicKey,privateKey,role,point){
+        super(username,password,email,publicKey,privateKey,role,point)
+        this.reviewArray = [];
+    }
+}
+
 module.exports = {
-    Node
+    Node,User,Miner
 }
