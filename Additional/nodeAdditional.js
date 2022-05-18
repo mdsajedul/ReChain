@@ -8,7 +8,7 @@ var encryptString = function(toEncrypt, publicKey) {
 };
 
 var decryptString = function(toDecrypt, privateKey) {
-    var buffer = Buffer.from(toDecrypt, "base64");
+    var buffer = Buffer.from(toDecrypt, "base64"); 
     
     const decrypted = crypto.privateDecrypt(
         {

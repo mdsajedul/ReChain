@@ -1,25 +1,49 @@
 
 const { createHash, randomInt } = require('crypto');
 
-class Rechian {
-    constructor(chain){
-        this.chain = [] ;
-        
+class Block{
+    constructor(transactions=[]){
+        this.timestamp = Date.now().toString()
+        this.transactions = transactions;
+        this.hash = this.getHash();
+        this.previousHash = '';
     }
-    createBlock(nonce = 1,previousHash = 0 ) {
-       const block = {
-            'index': 1,
-            'timestamp': new Date().toString(), 
-            'nonce':nonce,
-            'previousHash':previousHash
-        }
-        this.chain.push(block);
-        return block;
+    getHash(){
+        return createHash('sha256','rechain').update(JSON.stringify(this.timestamp+ this.transactions + this.previousHash)).digest('hex')
+    }
+}
+
+class Rechian {
+    constructor(){
+
+        this.chain = [new Block()] ;
+        
     }
 
     getPreviousBlock(){
-        return this.chain[-1];
+        return this.chain[this.chain.length-1];
     }
+
+    addBlock(block){
+        block.hash = block.getHash();
+        block.previousHash = this.getPreviousBlock().hash;
+
+        this.chain.push(block);
+    }
+
+    isValid(blockchain = this){
+        for(let i = 1; i< blockchain.chain.length; i++){
+            const currentBlock = blockchain.chain[i];
+            const previousBlock = blockchain.chain[i-1];
+
+            if(currentBlock.previousHash !== previousBlock.hash){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    
 
     dificulty(){
         let previousNonce = ((Math.random(1,1000))*Math.random(1,100));
@@ -38,10 +62,8 @@ class Rechian {
         return {'hash':hash,'nonce':nonce,'previousNonce':previousNonce};
     }
     
-
-    hash(block){
-        
-    }
 }
 
-module.exports = Rechian;
+module.exports = {
+    Rechian,Block
+}

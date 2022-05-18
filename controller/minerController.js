@@ -1,16 +1,18 @@
-const ReChain = require('../Blockchian/Rechain');
+const {Block, Rechian} = require('../Blockchian/Rechain');
 const { node,miner, user } = require('./nodeController');
 const fs = require('fs')
 
-const rechain =new ReChain();
+const rechain = new Rechian()
 
 function mineBlock(req,res,send){
     // const previousBlock = rechain.getPreviousBlock();
     // const prevousNonce = previousBlock['nonce']
 
-    rechain.createBlock()
+    // rechain.createBlock(1,'kisuekta',miner.reviewArray)
+    rechain.addBlock(new Block(miner.reviewArray))
 
     console.log(miner)
+    console.log(rechain.isValid())
 
     res.send({
         'message':'Mine successfull',
