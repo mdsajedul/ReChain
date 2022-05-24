@@ -1,33 +1,52 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const http = require('http')
+const cors = require('cors')
+const { Server } = require('socket.io');
+
+
 const Rechain = require('./Blockchian/Rechain')
 const minerRouter = require('./Router/minerRouter');
 const userRouter = require('./Router/userRouter')
 const nodeRouter = require('./Router/nodeRouter')
 
 
-const app1 = express()
-const app2 = express()
+const app = express()
 
+app.use(cors())
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json())
 
-app1.use(bodyParser.urlencoded({extended:true}))
-app1.use(bodyParser.json())
+const server = http.createServer(app)
 
-app1.use('/user',userRouter);
-app1.use('/miner', minerRouter);
-app1.use('/', nodeRouter);
-
-
-app2.use(bodyParser.urlencoded({extended:true}))
-app2.use(bodyParser.json())
-
-app2.use('/user',userRouter)
-app2.use('/miner', minerRouter);
-
-
-app1.listen(8000,()=>{
-    console.log(`ReChain server is runnig on PORT 8000`)
+const io = new Server(server,{
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+      }
 })
-app2.listen(8001,()=>{
-    console.log(`ReChain server is runnig on PORT 8001`)
+
+
+
+io.on("connection", (socket) => {
+    console.log(`User Connected: ${socket.id}`);
+  
+   
+  
+    socket.on("disconnect", () => {
+      console.log("User Disconnected", socket.id);
+    });
+});
+
+
+
+app.use('/user',userRouter);
+app.use('/miner', minerRouter);
+app.use('/', nodeRouter);
+
+
+
+server.listen(8000, ()=>{
+    console.log(`ReChain is running on PORT 8000`)
 })
+
