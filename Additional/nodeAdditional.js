@@ -1,4 +1,5 @@
 var crypto = require("crypto");
+const { user, miner } = require("../controller/nodeController");
 const passphrase = "rechain"
 
 var encryptString = function(toEncrypt, publicKey) {
@@ -20,7 +21,37 @@ var decryptString = function(toDecrypt, privateKey) {
     return decrypted.toString("utf8");
 };
 
+function processReviewData(data,publicKey){
+
+    let reviewData = data.reviewData;
+    let stringReviewData = JSON.stringify(reviewData);
+    let encryptedReviewData = encryptString(stringReviewData,publicKey)
+    data.reviewData = encryptedReviewData;
+  
+    return data
+  }
+  
+  function reviewDataContainer(data){
+    if(data.role==='user'){
+      if(data.username===user.username){
+       data = processReviewData(data,user.publicKey)
+       console.log(data)
+        return data
+      }
+    }
+    else if(data.role==='miner'){
+      if(data.username===miner.username){
+        data = processReviewData(data,miner.publicKey)
+        console.log(data)
+        return data
+      }
+    }
+  
+  }
+  
+
 module.exports = {
     encryptString,
-    decryptString
+    decryptString,
+    reviewDataContainer
 }

@@ -5,10 +5,10 @@ const cors = require('cors')
 const { Server } = require('socket.io');
 
 
-const Rechain = require('./Blockchian/Rechain')
 const minerRouter = require('./Router/minerRouter');
 const userRouter = require('./Router/userRouter')
-const nodeRouter = require('./Router/nodeRouter')
+const nodeRouter = require('./Router/nodeRouter');
+const {  reviewDataContainer } = require('./Additional/nodeAdditional');
 
 
 const app = express()
@@ -31,7 +31,10 @@ const io = new Server(server,{
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
   
-   
+    socket.on("submit_review",(data)=>{
+      const newData = reviewDataContainer(data)
+      socket.broadcast.emit('receive_reviews',newData)
+    })
   
     socket.on("disconnect", () => {
       console.log("User Disconnected", socket.id);

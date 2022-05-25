@@ -93,7 +93,7 @@ function nodeLogin(req,res,next){
 
                         res.send({
                             message:'Login Successfull',
-                            'Miner':miner
+                            'user':miner
                         })
                     }
 
