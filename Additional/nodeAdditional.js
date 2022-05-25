@@ -21,6 +21,8 @@ var decryptString = function(toDecrypt, privateKey) {
     return decrypted.toString("utf8");
 };
 
+
+// incoming reviews process 
 function processReviewData(data,publicKey){
 
     let reviewData = data.reviewData;
@@ -31,6 +33,7 @@ function processReviewData(data,publicKey){
     return data
   }
   
+//   incomming reviews container and send review to other peers after proccesed
   function reviewDataContainer(data){
     if(data.role==='user'){
       if(data.username===user.username){
