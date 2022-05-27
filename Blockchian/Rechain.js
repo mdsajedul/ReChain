@@ -64,6 +64,12 @@ class Rechian {
     
 }
 
+class Mempool {
+    constructor(data=[]){
+        this.data =data
+    }
+}
+
 module.exports = {
-    Rechian,Block
+    Rechian,Block, Mempool
 }

@@ -32,11 +32,10 @@ io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
   
     socket.on("submit_review",(data)=>{
-      // isSend
-      // console.log(data)
-      // const newData = reviewDataContainer(data)
-      // console.log(newData)
-      socket.broadcast.emit('receive_reviews',data)
+      console.log(data)
+      const newData = reviewDataContainer(data)
+      console.log(newData)
+      socket.broadcast.emit('receive_reviews',newData)
       
     })
   

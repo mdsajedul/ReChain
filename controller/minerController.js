@@ -18,6 +18,26 @@ function mineBlock(req,res,send){
     })
 }
 
+function getAllReviews(req,res,send){
+    // const username = req.body.username;
+    // console.log(username)
+    // if(username===miner.user){
+        
+    // }
+
+    fs.readFile('mempool.json','utf-8',(err,data)=>{
+        if(err){
+            res.send(err)
+        }
+        else{
+            const mempoolData = JSON.parse(data.toString())
+            res.send({
+                'reviews':mempoolData
+            })
+        }
+    })
+}
+
 // miner collects review data from mempool 
 function collectReview(req,res,send){
 
@@ -70,5 +90,5 @@ function collectReview(req,res,send){
 }
 
 module.exports={
-    mineBlock,collectReview
+    mineBlock,collectReview,getAllReviews
 }
