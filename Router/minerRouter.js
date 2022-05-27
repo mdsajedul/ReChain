@@ -3,7 +3,7 @@ const {mineBlock, collectReview, getAllReviews} =require('../controller/minerCon
 
 const router = express.Router();
 
-router.get('/mine',mineBlock);
+router.post('/mine',mineBlock);
 router.post('/collectReview',collectReview)
 router.get('/getMempoolData',getAllReviews)
 

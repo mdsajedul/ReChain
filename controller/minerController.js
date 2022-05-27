@@ -5,6 +5,8 @@ const fs = require('fs')
 const rechain = new Rechian()
 
 function mineBlock(req,res,send){
+
+    miner.reviewArray = req.body.data;
     
     rechain.addBlock(new Block(miner.reviewArray))
 
