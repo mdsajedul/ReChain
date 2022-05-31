@@ -2,22 +2,32 @@ const {Block, Rechian} = require('../Blockchian/Rechain');
 const { node,miner, user } = require('./nodeController');
 const fs = require('fs')
 
+
+
 const rechain = new Rechian()
 
 function mineBlock(req,res,send){
 
-    miner.reviewArray = req.body.data;
+    if(miner.username!=='' && miner.username!==undefined){
+        miner.reviewArray = req.body.data;
     
-    rechain.addBlock(new Block(miner.reviewArray))
-
-    console.log(miner)
-    console.log(rechain.isValid())
-
-    res.send({
-        'message':'Mine successfull',
-        'Block':rechain.chain
-        
-    })
+        rechain.addBlock(new Block(miner.reviewArray))
+    
+        console.log(miner)
+        console.log(rechain.isValid())
+    
+    
+        res.send({
+            'message':'Mine successfull',
+            'Block':rechain.chain
+            
+        })
+    }
+    else{
+        res.send({
+            'message':'Authentication Error!!! Please login again'
+        })
+    }
 }
 
 function getAllReviews(req,res,send){
@@ -78,9 +88,6 @@ function collectReview(req,res,send){
                         'message':"Mempool empty now!!!"
                     })
                 }
-
-                
-                
             }
         })
     }

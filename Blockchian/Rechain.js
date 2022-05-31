@@ -1,5 +1,8 @@
 
 const { createHash, randomInt } = require('crypto');
+const { MerkleTree } = require('merkletreejs')
+const SHA256 = require('crypto-js/sha256');
+const { miner } = require('../controller/nodeController');
 
 class Block{
     constructor(transactions=[]){
@@ -7,9 +10,28 @@ class Block{
         this.transactions = transactions;
         this.hash = this.getHash();
         this.previousHash = '';
+        this.merkleRoot = this.getMerkleRoot()
+        this.index = 1
+        this.miner = miner.username;
+        this.nonce = 0;
     }
+  
     getHash(){
-        return createHash('sha256','rechain').update(JSON.stringify(this.timestamp+ this.transactions + this.previousHash)).digest('hex')
+        return createHash('sha256','rechain').update(JSON.stringify(this.timestamp+ this.transactions + this.previousHash + this.nonce )).digest('hex')
+    }
+
+    getMerkleRoot(){
+        const leaves = this.transactions.map(x => SHA256(x))
+        const tree = new MerkleTree(leaves, SHA256)
+        const root = tree.getRoot().toString()
+        return root
+    }
+
+    mine(dificulty){
+        while(!this.hash.startsWith(Array(dificulty + 1).join('0'))) {
+            this.nonce++;
+            this.hash = this.getHash();
+        }
     }
 }
 
@@ -17,6 +39,8 @@ class Rechian {
     constructor(){
 
         this.chain = [new Block()] ;
+        this.dificulty = 1;
+        this.blockTime = 40000;
         
     }
 
@@ -27,8 +51,11 @@ class Rechian {
     addBlock(block){
         block.hash = block.getHash();
         block.previousHash = this.getPreviousBlock().hash;
-
+        block.index = this.chain.length + 1
+        block.mine(this.dificulty)
         this.chain.push(block);
+
+        this.dificulty += Date.now() - parseInt(this.getPreviousBlock().timestamp) < this.blockTime ? 1 : -1;
     }
 
     isValid(blockchain = this){
@@ -45,22 +72,7 @@ class Rechian {
 
     
 
-    dificulty(){
-        let previousNonce = ((Math.random(1,1000))*Math.random(1,100));
-        let nonce = previousNonce + 5;
-        console.log(nonce);
-        console.log(previousNonce);
-        const previousNonceString = previousNonce.toString();
-        const target = '000000';
-        
-        let hash= createHash('sha256').update(previousNonceString).digest('hex');
-        while(hash.substring(0,6) !== target){
-            nonce++;
-            hash = createHash('sha256').update(nonce.toString()).digest('hex');
-        }
-        previousNonce=(Math.random(1,100) + nonce)/Math.random(50,100);
-        return {'hash':hash,'nonce':nonce,'previousNonce':previousNonce};
-    }
+    
     
 }
 
