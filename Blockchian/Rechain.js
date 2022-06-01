@@ -23,7 +23,7 @@ class Block{
     getMerkleRoot(){
         const leaves = this.transactions.map(x => SHA256(x))
         const tree = new MerkleTree(leaves, SHA256)
-        const root = tree.getRoot().toString()
+        const root = tree.getRoot().toString('hex')
         return root
     }
 

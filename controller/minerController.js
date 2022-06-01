@@ -13,14 +13,22 @@ function mineBlock(req,res,send){
     
         rechain.addBlock(new Block(miner.reviewArray))
     
-        console.log(miner)
+      
         console.log(rechain.isValid())
-    
-    
-        res.send({
-            'message':'Mine successfull',
-            'Block':rechain.chain
-            
+
+        const data = JSON.stringify(rechain.chain)
+        
+        fs.writeFile('blocks.json',data,err=>{
+            if(err){
+                res.send(err)
+            }
+            else{
+                res.send({
+                    'message':'Mine successfull',
+                    'Block':rechain.chain
+                    
+                })
+            }
         })
     }
     else{
@@ -98,6 +106,18 @@ function collectReview(req,res,send){
     }
 }
 
+function getBlocks(req,res,send){
+    fs.readFile('blocks.json',(err,data)=>{
+        if(err){
+            res.send(err)
+        }
+        else{
+            const blocks = JSON.parse(data)
+            res.send(blocks)
+        }
+    })
+}
+
 module.exports={
-    mineBlock,collectReview,getAllReviews
+    mineBlock,collectReview,getAllReviews,getBlocks
 }
