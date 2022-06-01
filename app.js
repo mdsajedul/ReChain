@@ -38,10 +38,14 @@ io.on("connection", (socket) => {
       socket.broadcast.emit('receive_reviews',newData)
       
     })
+
+    
   
     socket.on("disconnect", () => {
       console.log("User Disconnected", socket.id);
     });
+
+    module.exports = {socket};
 });
 
 

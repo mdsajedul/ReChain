@@ -1,6 +1,7 @@
 const {Block, Rechian} = require('../Blockchian/Rechain');
 const { node,miner, user } = require('./nodeController');
-const fs = require('fs')
+const fs = require('fs');
+const {socket } = require('../app');
 
 
 
@@ -15,6 +16,8 @@ function mineBlock(req,res,send){
     
       
         console.log(rechain.isValid())
+
+        
 
         const data = JSON.stringify(rechain.chain)
         
