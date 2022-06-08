@@ -7,6 +7,23 @@ const {socket } = require('../app');
 
 const rechain = new Rechian()
 
+
+// delete review after mining block
+function deleteReview(req,res,send){
+
+    const data = req.body.data;
+    const dataString = JSON.stringify(data)
+
+    fs.writeFile('mempool.json',dataString,err=>{
+        if(err){
+            res.send(err)
+        }
+        else{
+            console.log('Deleted')
+        }
+    })
+}
+
 function mineBlock(req,res,send){
 
     if(miner.username!=='' && miner.username!==undefined){
@@ -122,5 +139,5 @@ function getBlocks(req,res,send){
 }
 
 module.exports={
-    mineBlock,collectReview,getAllReviews,getBlocks
+    mineBlock,collectReview,getAllReviews,getBlocks,deleteReview
 }
