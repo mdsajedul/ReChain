@@ -20,7 +20,7 @@ function nodeRegistration(req,res,next){
     
     fs.readFile('nodes.json','utf-8',(err,data)=>{
         if(err){
-            res.send('error on first')
+            res.send({'message':'Error occured'})
         }
         else{
             nodesArray = JSON.parse(data.toString())
@@ -29,7 +29,7 @@ function nodeRegistration(req,res,next){
             let newNodesArray = JSON.stringify(nodesArray)
             fs.writeFile('nodes.json',newNodesArray,(err)=>{
                 if(err){
-                    res.send(err)
+                    res.send({'message':'Error occured'})
                 }
                 else{
                     res.send({

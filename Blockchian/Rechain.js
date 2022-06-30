@@ -27,8 +27,8 @@ class Block{
         return root
     }
 
-    mine(dificulty){
-        while(!this.hash.startsWith(Array(dificulty + 1).join('0'))) {
+    mine(){
+        while(!this.hash.startsWith('0000')) {
             this.nonce++;
             this.hash = this.getHash();
         }
@@ -37,11 +37,8 @@ class Block{
 
 class Rechian {
     constructor(){
-
         this.chain = [new Block()] ;
-        this.dificulty = 1;
         this.blockTime = 40000;
-        
     }
 
     getPreviousBlock(){
@@ -52,10 +49,8 @@ class Rechian {
         block.hash = block.getHash();
         block.previousHash = this.getPreviousBlock().hash;
         block.index = this.chain.length + 1
-        block.mine(this.dificulty)
+        block.mine()
         this.chain.push(block);
-
-        this.dificulty += Date.now() - parseInt(this.getPreviousBlock().timestamp) < this.blockTime ? 1 : -1;
     }
 
     isValid(blockchain = this){
