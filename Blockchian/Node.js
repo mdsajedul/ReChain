@@ -31,7 +31,6 @@ class Node {
         this.publicKey = publicKey
         this.privateKey = privateKey
         this.role = role
-        this.point = point
     }
 
 
@@ -41,16 +40,7 @@ class Node {
         this.email = object.email;
         this.publicKey = publicKey;
         this.privateKey = privateKey;
-
         this.role = object.role;
-        if(this.role=='user'){
-            this.point = 50
-        }
-        else if(this.role == 'miner'){
-            this.point = 100
-        }
-
-        
     }
 
 }

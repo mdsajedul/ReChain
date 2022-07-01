@@ -51,6 +51,7 @@ function nodeRegistration(req,res,next){
 
 function nodeLogin(req,res,next){
     let loginInfo = req.body;
+    console.log(loginInfo)
 
     let nodesArray =[]
 
@@ -60,22 +61,24 @@ function nodeLogin(req,res,next){
         }
         else{
             nodesArray = JSON.parse(data.toString())
+            console.log(nodesArray)
             
             const currentNode = nodesArray.find(({email})=> email ===loginInfo.email)
-
+            console.log(currentNode)
             
         
             if(currentNode){
+                console.log('node found')
                 if(currentNode.password === loginInfo.password){
-
-                    if(currentNode.role==='user'){
+                    console.log('password matched')
+                    if(currentNode.role.toLowerCase()==='user'){
+                        console.log('user found')
                         user.username = currentNode.username;
                         user.email = currentNode.email;
                         user.password = currentNode.password;
                         user.publicKey = currentNode.publicKey;
                         user.privateKey = currentNode.privateKey;
                         user.role = currentNode.role;
-                        user.point = currentNode.point;
 
                         res.send({
                             message:'Login Successfull',
@@ -89,7 +92,7 @@ function nodeLogin(req,res,next){
                         miner.publicKey = currentNode.publicKey;
                         miner.privateKey = currentNode.privateKey;
                         miner.role = currentNode.role;
-                        miner.point = currentNode.point;
+                       
 
                         res.send({
                             message:'Login Successfull',
@@ -97,18 +100,6 @@ function nodeLogin(req,res,next){
                         })
                     }
 
-                    // node.username = currentNode.username;
-                    // node.email = currentNode.email;
-                    // node.password = currentNode.password;
-                    // node.publicKey = currentNode.publicKey;
-                    // node.privateKey = currentNode.privateKey;
-                    // node.role = currentNode.role;
-                    // node.point = currentNode.point;
-
-                    // res.send({
-                    //     message:'Login Successfull',
-                    //     'user':node
-                    // })
                 }
                 else{
                     res.send({
