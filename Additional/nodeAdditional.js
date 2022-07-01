@@ -72,14 +72,14 @@ function processReviewData(reveiwInfo,publicKey){
   
 //   incomming reviews container and send review to other peers after proccesed
   function reviewDataContainer(data){
-    if(data.role==='user'){
+    if(data.role.toLowerCase()==='user'){
       if(data.username===user.username){
        data = processReviewData(data,user.publicKey)
        console.log('reveiw: '+ mempool.data)
         return data
       }
     }
-    else if(data.role==='miner'){
+    else if(data.role.toLowerCase()==='miner'){
       if(data.username===miner.username){
         data = processReviewData(data,miner.publicKey)
         console.log('reveiw: '+ mempool.data)

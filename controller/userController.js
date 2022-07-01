@@ -19,7 +19,7 @@ const { encryptString, decryptString } = require('../Additional/nodeAdditional')
 function  getReviewInfo(req,res,send){
     let reviewInfo = req.body;
     let mempoolArray = [];
-    
+    console.log(reviewInfo)
 
     if(reviewInfo.username === user.username){
         

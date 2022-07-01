@@ -86,6 +86,7 @@ function nodeLogin(req,res,next){
                         })
                     }
                     else if(currentNode.role === 'miner'){
+                        console.log(currentNode)
                         miner.username = currentNode.username;
                         miner.email = currentNode.email;
                         miner.password = currentNode.password;
